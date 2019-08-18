@@ -2,7 +2,7 @@
 
 namespace IPObserver.DataStorage
 {
-	public sealed class City : IEntity<long>
+	internal sealed class City : IEntity<long>, IRepresentable<ICity>
 	{
 		public long Id { get; set; }
 
@@ -44,6 +44,16 @@ namespace IPObserver.DataStorage
 			model.HasOne(x => x.County)
 				.WithMany(x => x.Cities)
 				.HasForeignKey(x => x.CountyId);
+		}
+
+		public ICity Represent(IRepresentationContext context = null)
+		{
+			if(context == null)
+			{
+				context = new RepresentationContext();
+			}
+
+			return context.GetOrAdd(Id, () => new CityImpl(Name, County.Represent(context)));
 		}
 	}
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	public sealed class Location : IEntity<long>
+	internal sealed class Location : IEntity<long>, IRepresentable<ILocation>
 	{
 		public long Id { get; set; }
 
@@ -43,6 +43,11 @@ namespace IPObserver.DataStorage
 			model
 				.Property(x => x.TimeZone)
 				.HasColumnName("TimeZone");
+		}
+
+		public ILocation Represent(IRepresentationContext context = null)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

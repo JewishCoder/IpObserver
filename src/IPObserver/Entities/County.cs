@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace IPObserver.DataStorage
 {
-	public sealed class County : IEntity<long>
+	internal sealed class County : IEntity<long>, IRepresentable<ICounty>
 	{
 		public long Id { get; set; }
 
@@ -18,7 +18,7 @@ namespace IPObserver.DataStorage
 
 		public List<City> Cities { get; set; }
 
-		public County()
+		internal County()
 		{
 			Cities = new List<City>();
 		}
@@ -48,9 +48,33 @@ namespace IPObserver.DataStorage
 				.IsRequired();
 
 			model
+				.Property(x => x.Continent)
+				.HasColumnName("Continent")
+				.IsRequired();
+
+			model
 				.HasOne(x => x.Continent)
 				.WithMany(x => x.Counties)
 				.HasForeignKey(x => x.ContinentId);
+		}
+
+		public ICounty Represent(IRepresentationContext context = null)
+		{
+			if(context == null)
+			{
+				context = new RepresentationContext();
+			}
+
+			var cities = new List<ICity>();
+			if(Cities.Count > 0)
+			{
+				for(var i = 0; i < Cities.Count; i++)
+				{
+					cities.Add(Cities[i].Represent(context));
+				}
+			}
+
+			return context.GetOrAdd(Id, () => new CountyImpl(Name, Code, Continent.Represent(context), cities));
 		}
 	}
 }

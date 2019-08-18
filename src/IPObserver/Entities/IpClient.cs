@@ -4,7 +4,7 @@ using System;
 
 namespace IPObserver.DataStorage
 {
-	public class IpClient : IEntity<long>
+	internal class IpClient : IEntity<long>
 	{
 		public long Id { get; set; }
 

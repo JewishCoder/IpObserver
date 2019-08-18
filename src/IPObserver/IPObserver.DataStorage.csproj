@@ -10,6 +10,10 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IPObserver.Framework\IPObserver.Framework.csproj" />
+  </ItemGroup>
+
   <Import Project="..\CodeValidator\CodeValidator.projitems" Label="Shared" />
 
 </Project>

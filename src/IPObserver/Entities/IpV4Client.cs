@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	public sealed class IpV4Client : IpClient
+	internal sealed class IpV4Client : IpClient, IRepresentable<IIpV4Client>
 	{
 		public string IpV4 { get; set; }
 
-		public IpV4Client()
+		internal IpV4Client()
 		{
 			ChildConfigurateAction = (builder) =>
 			{
@@ -18,6 +18,21 @@ namespace IPObserver.DataStorage
 					.HasColumnName("IpV4")
 					.IsRequired();
 			};
+		}
+
+		public IIpV4Client Represent(IRepresentationContext context = null)
+		{
+			if(context == null)
+			{
+				context = new RepresentationContext();
+			}
+
+			return context.GetOrAdd(Id, 
+				() => new IpV4ClientImpl(
+					IpV4,
+					City.Represent(context), 
+					County.Represent(context), 
+					Continent.Represent(context)));
 		}
 	}
 }

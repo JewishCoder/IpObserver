@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IPObserver.DataStorage
 {
-	public sealed class Continent : IEntity<long>
+	internal sealed class Continent : IEntity<long>, IRepresentable<IContinent>
 	{
 		public long Id { get; set; }
 
@@ -41,6 +41,25 @@ namespace IPObserver.DataStorage
 				.Property(x => x.Code)
 				.HasColumnName("Code")
 				.IsRequired();
+		}
+
+		public IContinent Represent(IRepresentationContext context = null)
+		{
+			if(context == null)
+			{
+				context = new RepresentationContext();
+			}
+
+			var counties = new List<ICounty>();
+			if(Counties.Count > 0)
+			{
+				for(var i = 0; i < Counties.Count; i++)
+				{
+					counties.Add(Counties[i].Represent(context));
+				}
+			}
+
+			return context.GetOrAdd(Id, () => new ContinentImpl(Name, Code, counties));
 		}
 	}
 }
