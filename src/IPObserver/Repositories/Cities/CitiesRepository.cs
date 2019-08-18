@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class CitiesRepositories : WriteableRepositoryBase<City, ICity, CityFilter, ICity>, ICitiesRepository
+	internal sealed class CitiesRepository : WriteableRepositoryBase<City, ICity, CityFilter, ICity>, ICitiesRepository
 	{
 		private Dictionary<Type, Type> FilterEntityMap { get; }
 
-		public CitiesRepositories(IDatabaseService databaseService) : base(databaseService)
+		public CitiesRepository(IDatabaseService databaseService) : base(databaseService)
 		{
 			FilterEntityMap = new Dictionary<Type, Type>
 			{
@@ -48,7 +48,7 @@ namespace IPObserver.DataStorage
 			return entity.Represent(representationContext);
 		}
 
-		protected override City GetEntity(StorageContext context, ICity data)
+		internal override City GetEntity(StorageContext context, ICity data)
 		{
 			var county = GetDbSet(context)
 				.Where(x => x.County.Name.Equals(data.County.Name))
@@ -63,13 +63,13 @@ namespace IPObserver.DataStorage
 				county = EntityFactory.CreateCounty(data.County);
 			}
 
-			city.CountyId = county;
+			city.CountyId = county.Id;
 			city.County = county;
 
 			return city;
 		}
 
-		protected override async Task<City> GetEntityAsync(StorageContext context, ICity data, CancellationToken cancellationToken)
+		internal override async Task<City> GetEntityAsync(StorageContext context, ICity data, CancellationToken cancellationToken)
 		{
 			var county = await GetDbSet(context)
 				.Where(x => x.County.Name.Equals(data.County.Name))
@@ -85,7 +85,7 @@ namespace IPObserver.DataStorage
 				county = EntityFactory.CreateCounty(data.County);
 			}
 
-			city.CountyId = county;
+			city.CountyId = county.Id;
 			city.County = county;
 
 			return city;

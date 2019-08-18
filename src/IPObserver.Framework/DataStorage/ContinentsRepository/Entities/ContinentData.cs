@@ -12,7 +12,7 @@ namespace IPObserver.DataStorage
 
 		public IReadOnlyList<ICounty> Counties { get; }
 
-		public ContinentData(string name, string code, IReadOnlyList<ICounty> counties)
+		public ContinentData(string name, string code, IReadOnlyList<ICounty> counties = null)
 		{
 			Name = name;
 			Code = code;

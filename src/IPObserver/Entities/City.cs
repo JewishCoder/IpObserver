@@ -1,50 +1,53 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class City : IEntity<long>, IRepresentable<ICity>
+	public sealed class City : IEntity<long>, IRepresentable<ICity>
 	{
+		#region Configuration
+
+		internal sealed class CityConfiguration : IEntityTypeConfiguration<City>
+		{
+			public void Configure(EntityTypeBuilder<City> builder)
+			{
+				builder.ToTable("Cities");
+
+				builder
+					.Property(x => x.Id)
+					.HasColumnName("Id")
+					.IsRequired()
+					.ValueGeneratedOnAdd();
+
+				builder.HasKey(x => x.Id);
+
+
+				builder
+					.Property(x => x.Name)
+					.HasColumnName("Name")
+					.IsRequired()
+					.HasMaxLength(400);
+
+				builder
+					.Property(x => x.CountyId)
+					.HasColumnName("CountyId")
+					.IsRequired();
+			}
+		}
+
+		#endregion
+
 		public long Id { get; set; }
 
 		public string Name { get; set; }
 
-		internal IEntity<long> CountyId { get; set; }
+		internal long CountyId { get; set; }
 
 		public County County { get; set; }
 
-		internal static void Configurate(ModelBuilder builder)
-		{
-			var model = builder.Entity<City>();
-
-			model.ToTable("Cities");
-
-			model
-				.Property(x => x.Id)
-				.HasColumnName("Id")
-				.IsRequired();
-
-			model.HasKey(x => x.Id);
-
-			model
-				.Property(x => x.Name)
-				.HasColumnName("Name")
-				.IsRequired()
-				.HasMaxLength(400);
-
-			model
-				.Property(x => x.CountyId)
-				.HasColumnName("CountyId")
-				.IsRequired();
-
-			model
-				.Property(x => x.County)
-				.HasColumnName("County")
-				.IsRequired();
-
-			model.HasOne(x => x.County)
-				.WithMany(x => x.Cities)
-				.HasForeignKey(x => x.CountyId);
-		}
+		internal static CityConfiguration GetConfiguration() => new CityConfiguration();
 
 		public ICity Represent(IRepresentationContext context = null)
 		{
@@ -53,7 +56,7 @@ namespace IPObserver.DataStorage
 				context = new RepresentationContext();
 			}
 
-			return context.GetOrAdd(Id, () => new CityImpl(Name, County.Represent(context)));
+			return context.GetOrAdd(Id, () => new CityImpl(Name, County?.Represent(context)));
 		}
 	}
 }

@@ -14,6 +14,4 @@
     <ProjectReference Include="..\IPObserver.Framework\IPObserver.Framework.csproj" />
   </ItemGroup>
 
-  <Import Project="..\CodeValidator\CodeValidator.projitems" Label="Shared" />
-
 </Project>

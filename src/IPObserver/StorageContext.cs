@@ -20,11 +20,13 @@ namespace IPObserver.DataStorage
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
-			Continent.Configurate(modelBuilder);
-			County.Configurate(modelBuilder);
-			City.Configurate(modelBuilder);
-			IpClient.Configurate(modelBuilder);
-			Location.Configurate(modelBuilder);
+			modelBuilder.ApplyConfiguration(City.GetConfiguration());
+			modelBuilder.ApplyConfiguration(County.GetConfiguration());
+			modelBuilder.ApplyConfiguration(Continent.GetConfiguration());
+			modelBuilder.ApplyConfiguration(IpClient.GetConfiguration());
+			modelBuilder.ApplyConfiguration(IpV4Client.GetIpV4Configuration());
+			modelBuilder.ApplyConfiguration(IpV6Client.GetIpV6Configuration());
+			modelBuilder.ApplyConfiguration(Location.GetConfiguration());
 		}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

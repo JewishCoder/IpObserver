@@ -37,16 +37,6 @@ namespace IPObserver.DataStorage
 			return context.Set<Continent>();
 		}
 
-		protected override Continent GetEntity(StorageContext context, IContinent data)
-		{
-			return EntityFactory.CreateContinent(data);
-		}
-
-		protected override Task<Continent> GetEntityAsync(StorageContext context, IContinent data, CancellationToken cancellationToken)
-		{
-			return Task.Run(() => EntityFactory.CreateContinent(data));
-		}
-
 		protected override IQueryable<Continent> IncludeDependence(IQueryable<Continent> query)
 		{
 			return query.Include(x => x.Counties);
@@ -55,6 +45,16 @@ namespace IPObserver.DataStorage
 		protected override IContinent Represent(Continent entity, IRepresentationContext representationContext = null)
 		{
 			return entity.Represent(representationContext);
+		}
+
+		internal override Continent GetEntity(StorageContext context, IContinent data)
+		{
+			return EntityFactory.CreateContinent(data);
+		}
+
+		internal override Task<Continent> GetEntityAsync(StorageContext context, IContinent data, CancellationToken cancellationToken)
+		{
+			return Task.Run(() => EntityFactory.CreateContinent(data));
 		}
 	}
 }

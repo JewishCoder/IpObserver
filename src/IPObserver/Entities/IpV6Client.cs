@@ -1,25 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IPObserver.DataStorage
 {
 	internal sealed class IpV6Client : IpClient, IRepresentable<IIpV6Client>
 	{
-		public string IpV6 { get; set; }
+		#region Configuration
 
-		internal IpV6Client()
+		internal sealed class IpV6ClientConfiguration : IEntityTypeConfiguration<IpV6Client>
 		{
-
-			ChildConfigurateAction = (builder) =>
+			public void Configure(EntityTypeBuilder<IpV6Client> builder)
 			{
-				var model = builder.Entity<IpV6Client>();
-
-				model
+				builder
 					.Property(x => x.IpV6)
 					.HasColumnName("IpV6")
 					.IsRequired();
-			};
+			}
 		}
+
+		#endregion
+
+		public string IpV6 { get; set; }
+
+		internal static IpV6ClientConfiguration GetIpV6Configuration() => new IpV6ClientConfiguration();
 
 		public IIpV6Client Represent(IRepresentationContext context = null)
 		{
@@ -31,10 +34,10 @@ namespace IPObserver.DataStorage
 			return context.GetOrAdd(Id,
 				() => new IpV6ClientImpl(
 					IpV6,
-					City.Represent(context),
-					County.Represent(context),
-					Continent.Represent(context),
-					Location.Represent(context)));
+					City?.Represent(context),
+					County?.Represent(context),
+					Continent?.Represent(context),
+					Location?.Represent(context)));
 		}
 	}
 }

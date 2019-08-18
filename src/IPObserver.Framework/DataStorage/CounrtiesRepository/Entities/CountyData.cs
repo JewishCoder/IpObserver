@@ -14,12 +14,12 @@ namespace IPObserver.DataStorage
 
 		public IReadOnlyList<ICity> Cities { get; }
 
-		public CountyData(string name, string code, IContinent continent, IReadOnlyList<ICity> cities)
+		public CountyData(string name, string code, IContinent continent, IReadOnlyList<ICity> cities = null)
 		{
 			Name      = name;
 			Code      = code;
 			Continent = continent;
-			Cities    = cities ?? new List<ICity>();
+			Cities    = cities;
 		}
 	}
 }

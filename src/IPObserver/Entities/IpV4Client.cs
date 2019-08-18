@@ -1,24 +1,29 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class IpV4Client : IpClient, IRepresentable<IIpV4Client>
+	public sealed class IpV4Client : IpClient, IRepresentable<IIpV4Client>
 	{
-		public string IpV4 { get; set; }
+		#region Configuration
 
-		internal IpV4Client()
+		internal sealed class IpV4ClientConfiguration : IEntityTypeConfiguration<IpV4Client>
 		{
-			ChildConfigurateAction = (builder) =>
+			public void Configure(EntityTypeBuilder<IpV4Client> builder)
 			{
-				var model = builder.Entity<IpV4Client>();
-
-				model
+				builder
 					.Property(x => x.IpV4)
 					.HasColumnName("IpV4")
 					.IsRequired();
-			};
+			}
 		}
+
+		#endregion
+
+		public string IpV4 { get; set; }
+
+		internal static IpV4ClientConfiguration GetIpV4Configuration() => new IpV4ClientConfiguration();
 
 		public IIpV4Client Represent(IRepresentationContext context = null)
 		{
@@ -30,10 +35,10 @@ namespace IPObserver.DataStorage
 			return context.GetOrAdd(Id,
 				() => new IpV4ClientImpl(
 					IpV4,
-					City.Represent(context),
-					County.Represent(context),
-					Continent.Represent(context),
-					Location.Represent(context)));
+					City?.Represent(context),
+					County?.Represent(context),
+					Continent?.Represent(context),
+					Location?.Represent(context)));
 		}
 	}
 }

@@ -19,9 +19,9 @@ namespace IPObserver.DataStorage
 
 		}
 
-		protected abstract TEntity GetEntity(StorageContext context, TData data);
+		internal abstract TEntity GetEntity(StorageContext context, TData data);
 
-		protected abstract Task<TEntity> GetEntityAsync(StorageContext context, TData data, CancellationToken cancellationToken);
+		internal abstract Task<TEntity> GetEntityAsync(StorageContext context, TData data, CancellationToken cancellationToken);
 
 		public virtual TEntityImpl Add(TData data)
 		{

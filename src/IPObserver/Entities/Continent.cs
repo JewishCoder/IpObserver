@@ -1,10 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Collections.Generic;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class Continent : IEntity<long>, IRepresentable<IContinent>
+	public sealed class Continent : IEntity<long>, IRepresentable<IContinent>
 	{
+		#region Configuration
+
+		internal sealed class ContinentConfiguration : IEntityTypeConfiguration<Continent>
+		{
+			public void Configure(EntityTypeBuilder<Continent> builder)
+			{
+				builder.ToTable("Continents");
+
+				builder
+					.Property(x => x.Id)
+					.HasColumnName("Id")
+					.IsRequired();
+
+				builder.HasKey(x => x.Id);
+
+				builder
+					.Property(x => x.Name)
+					.HasColumnName("Name")
+					.IsRequired()
+					.HasMaxLength(100);
+
+				builder
+					.Property(x => x.Code)
+					.HasColumnName("Code")
+					.IsRequired();
+			}
+		}
+
+		#endregion
+
 		public long Id { get; set; }
 
 		public string Name { get; set; }
@@ -18,30 +49,7 @@ namespace IPObserver.DataStorage
 			Counties = new List<County>();
 		}
 
-		internal static void Configurate(ModelBuilder builder)
-		{
-			var model = builder.Entity<Continent>();
-
-			model.ToTable("Continents");
-
-			model
-				.Property(x => x.Id)
-				.HasColumnName("Id")
-				.IsRequired();
-
-			model.HasKey(x => x.Id);
-
-			model
-				.Property(x => x.Name)
-				.HasColumnName("Name")
-				.IsRequired()
-				.HasMaxLength(100);
-
-			model
-				.Property(x => x.Code)
-				.HasColumnName("Code")
-				.IsRequired();
-		}
+		internal static ContinentConfiguration GetConfiguration() => new ContinentConfiguration();
 
 		public IContinent Represent(IRepresentationContext context = null)
 		{
