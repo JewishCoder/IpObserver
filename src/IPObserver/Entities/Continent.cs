@@ -11,7 +11,7 @@ namespace IPObserver.DataStorage
 
 		public string Code { get; set; }
 
-		public List<County> Counties { get; }
+		public List<County> Counties { get; set; }
 
 		public Continent()
 		{

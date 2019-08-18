@@ -19,13 +19,15 @@ namespace IPObserver.DataStorage
 
 		}
 
-		protected abstract TEntity GetEntity(TData data);
+		protected abstract TEntity GetEntity(StorageContext context, TData data);
+
+		protected abstract Task<TEntity> GetEntityAsync(StorageContext context, TData data, CancellationToken cancellationToken);
 
 		public virtual TEntityImpl Add(TData data)
 		{
 			using(var context = DatabaseService.CreateContext())
 			{
-				var entity = GetDbSet(context).Add(GetEntity(data));
+				var entity = GetDbSet(context).Add(GetEntity(context, data));
 
 				context.SaveChanges();
 
@@ -33,20 +35,20 @@ namespace IPObserver.DataStorage
 			}
 		}
 
-		public virtual async Task<TEntityImpl> AddAsync(TData data, CancellationToken cancellation)
+		public virtual async Task<TEntityImpl> AddAsync(TData data, CancellationToken cancellationToken)
 		{
 			using(var context = await DatabaseService
 				.CreateContextAsync()
 				.ConfigureAwait(continueOnCapturedContext: false))
 			{
-				cancellation.ThrowIfCancellationRequested();
+				var entity = await GetEntityAsync(context, data, cancellationToken)
+					.ConfigureAwait(continueOnCapturedContext: false);
+				var result = GetDbSet(context).Add(entity);
 
-				var entity = GetDbSet(context).Add(GetEntity(data));
-
-				await context.SaveChangesAsync(cancellation)
+				await context.SaveChangesAsync(cancellationToken)
 				   .ConfigureAwait(continueOnCapturedContext: false);
 
-				return Represent(entity.Entity);
+				return Represent(result.Entity);
 			}
 		}
 
@@ -72,7 +74,7 @@ namespace IPObserver.DataStorage
 			}
 		}
 
-		public virtual async Task<int> RemoveAsync(TFilter filter, CancellationToken cancellation)
+		public virtual async Task<int> RemoveAsync(TFilter filter, CancellationToken cancellationToken)
 		{
 			using(var context = await DatabaseService
 				.CreateContextAsync()
@@ -80,7 +82,7 @@ namespace IPObserver.DataStorage
 			{
 				var dbSet = GetDbSet(context);
 				var records = await ApplyFilter(dbSet, filter)
-					.ToListAsync(cancellation)
+					.ToListAsync(cancellationToken)
 					.ConfigureAwait(continueOnCapturedContext: false);
 				if(records.Count > 0)
 				{
@@ -90,7 +92,7 @@ namespace IPObserver.DataStorage
 					}
 
 					return await context
-						.SaveChangesAsync(cancellation)
+						.SaveChangesAsync(cancellationToken)
 						.ConfigureAwait(continueOnCapturedContext: false);
 				}
 
