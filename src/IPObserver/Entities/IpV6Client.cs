@@ -33,7 +33,8 @@ namespace IPObserver.DataStorage
 					IpV6,
 					City.Represent(context),
 					County.Represent(context),
-					Continent.Represent(context)));
+					Continent.Represent(context),
+					Location.Represent(context)));
 		}
 	}
 }

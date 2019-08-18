@@ -14,12 +14,15 @@ namespace IPObserver.DataStorage
 				Name = data.Name,
 			};
 
-			var counties = new List<County>();
-			for(var i = 0; i < data.Counties.Count; i++)
+			if(data.Counties != null && data.Counties.Count > 0)
 			{
-				counties.Add(CreateCounty(data.Counties[i]));
+				var counties = new List<County>();
+				for(var i = 0; i < data.Counties.Count; i++)
+				{
+					counties.Add(CreateCounty(data.Counties[i]));
+				}
+				result.Counties = counties;
 			}
-			result.Counties = counties;
 
 			return result;
 		}
@@ -33,12 +36,15 @@ namespace IPObserver.DataStorage
 				Continent = CreateContinent(data.Continent),
 			};
 
-			var cities = new List<City>();
-			for(var i = 0; i < data.Cities.Count; i++)
+			if(data.Cities != null && data.Cities.Count > 0)
 			{
-				cities.Add(CreateCity(data.Cities[i]));
+				var cities = new List<City>();
+				for(var i = 0; i < data.Cities.Count; i++)
+				{
+					cities.Add(CreateCity(data.Cities[i]));
+				}
+				result.Cities = cities;
 			}
-			result.Cities = cities;
 
 			return result;
 		}

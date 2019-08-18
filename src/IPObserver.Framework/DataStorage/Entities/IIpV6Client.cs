@@ -13,5 +13,7 @@ namespace IPObserver.DataStorage
 		ICounty County { get; }
 
 		IContinent Continent { get; }
+
+		ILocation Location { get; }
 	}
 }

@@ -14,16 +14,20 @@ namespace IPObserver.DataStorage
 
 		public IContinent Continent { get; }
 
+		public ILocation Location { get; }
+
 		public IpV4ClientImpl(
 			string ipV4, 
 			ICity city, 
 			ICounty county, 
-			IContinent continent)
+			IContinent continent,
+			ILocation location)
 		{
 			IpV4      = ipV4;
 			City      = city;
 			County    = county;
 			Continent = continent;
+			Location  = location;
 		}
 	}
 }

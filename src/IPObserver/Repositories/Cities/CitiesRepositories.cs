@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class CitiesRepositories : WriteableRepositoryBase<City, ICity, CityFilter, ICity>
+	internal sealed class CitiesRepositories : WriteableRepositoryBase<City, ICity, CityFilter, ICity>, ICitiesRepository
 	{
 		private Dictionary<Type, Type> FilterEntityMap { get; }
 

@@ -13,17 +13,20 @@ namespace IPObserver.DataStorage
 		public ICounty County { get; }
 
 		public IContinent Continent { get; }
+		public ILocation Location { get; }
 
 		public IpV6ClientImpl(
 			string ipV6,
 			ICity city,
 			ICounty county,
-			IContinent continent)
+			IContinent continent,
+			ILocation location)
 		{
-			IpV6 = ipV6;
-			City = city;
-			County = county;
+			IpV6      = ipV6;
+			City      = city;
+			County    = county;
 			Continent = continent;
+			Location  = location;
 		}
 	}
 }

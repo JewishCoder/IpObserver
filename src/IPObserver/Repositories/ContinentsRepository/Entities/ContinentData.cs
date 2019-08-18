@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IPObserver.DataStorage
 {
-	public sealed class ContinentImpl : IContinent
+	public sealed class ContinentData : IContinent
 	{
 		public string Name { get; }
 
@@ -12,11 +12,11 @@ namespace IPObserver.DataStorage
 
 		public IReadOnlyList<ICounty> Counties { get; }
 
-		public ContinentImpl(string name, string code, IReadOnlyList<ICounty> counties)
+		public ContinentData(string name, string code, IReadOnlyList<ICounty> counties)
 		{
-			Name     = name;
-			Code     = code;
-			Counties = counties ?? new List<ICounty>();
+			Name = name;
+			Code = code;
+			Counties = Counties;
 		}
 	}
 }

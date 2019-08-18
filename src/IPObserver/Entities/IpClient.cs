@@ -20,6 +20,10 @@ namespace IPObserver.DataStorage
 
 		public Continent Continent { get; set; }
 
+		internal IEntity<long> LocationId { get; set; }
+
+		public Location Location { get; set; }
+
 		protected static Action<ModelBuilder> ChildConfigurateAction { get; set; }
 
 		internal static void Configurate(ModelBuilder builder)
@@ -73,6 +77,19 @@ namespace IPObserver.DataStorage
 				.HasOne(x => x.Continent)
 				.WithMany()
 				.HasForeignKey(x => x.ContinentId);
+
+			model
+				.Property(x => x.LocationId)
+				.HasColumnName("LocationId");
+
+			model
+				.Property(x => x.Location)
+				.HasColumnName("Location");
+
+			model
+				.HasOne(x => x.Location)
+				.WithMany()
+				.HasForeignKey(x => x.LocationId);
 
 			ChildConfigurateAction?.Invoke(builder);
 		}
