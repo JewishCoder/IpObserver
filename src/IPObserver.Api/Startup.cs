@@ -27,7 +27,7 @@ namespace IPObserver.Api
 		public void ConfigureServices(IServiceCollection services)
 		{
 			var initializator = new ServiceInitializationRepository();
-			initializator.InitializationServices(services, Configuration);
+			initializator.InitializationServices(services, Configuration).Wait();
 
 			services.AddControllers()
 				.AddNewtonsoftJson();
@@ -40,18 +40,8 @@ namespace IPObserver.Api
 			{
 				app.UseDeveloperExceptionPage();
 			}
-			else
-			{
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				app.UseHsts();
-			}
-
-			app.UseHttpsRedirection();
 
 			app.UseRouting();
-
-			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();

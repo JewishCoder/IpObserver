@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class IpV6ClientsRepository : WriteableRepositoryBase<IpV6Client, IIpV6Client, IpV6ClientFilter, IIpV6Client>, IIpV6ClientsRepository
+	internal sealed class IpV6ClientsRepository : CrudRepositoryBasecs<IpV6Client, IIpV6Client, IpV6ClientFilter, IIpV6Client>, IIpV6ClientsRepository
 	{
 		private readonly ContinentsRepository _continentsRepository;
 		private readonly CountriesRepository _countriesRepository;

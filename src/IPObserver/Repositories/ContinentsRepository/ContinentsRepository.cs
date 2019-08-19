@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class ContinentsRepository : WriteableRepositoryBase<Continent, IContinent, ContinentFilter, IContinent>, IContinentsRepository
+	internal sealed class ContinentsRepository : CrudRepositoryBasecs<Continent, IContinent, ContinentFilter, IContinent>, IContinentsRepository
 	{
 		private Dictionary<Type, Type> FilterEntityMap { get; }
 

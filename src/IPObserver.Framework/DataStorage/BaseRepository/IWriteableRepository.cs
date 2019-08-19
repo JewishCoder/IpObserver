@@ -10,6 +10,6 @@ namespace IPObserver.DataStorage
 	{
 		TEntityImpl Add(TData data);
 
-		Task<TEntityImpl> AddAsync(TData data, CancellationToken cancellation);
+		Task<TEntityImpl> AddAsync(TData data, CancellationToken cancellation = default);
 	}
 }

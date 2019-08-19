@@ -8,12 +8,12 @@ namespace IPObserver.DataStorage
 {
 	public interface IReadOnlyRepository<TEntityImpl, TFilter>
 	{
-		int Count(TFilter filter);
+		int Count(TFilter filter = default);
 
-		Task<int> CountAsync(TFilter filter, CancellationToken cancellationToken);
+		Task<int> CountAsync(TFilter filter = default, CancellationToken cancellationToken = default);
 
-		IReadOnlyList<TEntityImpl> Fetch(TFilter filter);
+		IReadOnlyList<TEntityImpl> Fetch(TFilter filter = default);
 
-		Task<IReadOnlyList<TEntityImpl>> FetchAsync(TFilter filter, CancellationToken cancellation);
+		Task<IReadOnlyList<TEntityImpl>> FetchAsync(TFilter filter = default, CancellationToken cancellation = default);
 	}
 }

@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -74,13 +75,16 @@ namespace IPObserver.DataStorage
 					var county = default(ICounty);
 					if(city.County != null)
 					{
-						county = new CountyImpl(city.County.Name, city.County.Code, city.County.Continent?.Represent(context), null);	
+						 county = new CountyImpl(city.County.Name, city.County.Code, city.County.Continent?.Represent(context), null);	
 					}
 					cities.Add(new CityImpl(city.Name, county));
 				}
 			}
 
-			return context.GetOrAdd(Id, () => new CountyImpl(Name, Code, Continent?.Represent(context), cities));
+			var continent = default(IContinent);
+			
+			var result = context.GetOrAdd(Id, () => new CountyImpl(Name, Code, continent, cities));
+			return result;
 		}
 	}
 }

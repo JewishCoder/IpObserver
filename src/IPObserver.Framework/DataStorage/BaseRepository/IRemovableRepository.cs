@@ -10,6 +10,6 @@ namespace IPObserver.DataStorage
 	{
 		int Remove(TFilter filter);
 
-		Task<int> RemoveAsync(TFilter filter, CancellationToken cancellation);
+		Task<int> RemoveAsync(TFilter filter, CancellationToken cancellation = default);
 	}
 }

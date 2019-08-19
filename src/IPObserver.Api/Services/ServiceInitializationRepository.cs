@@ -25,7 +25,7 @@ namespace IPObserver.Api.Services
 			return _services;
 		}
 
-		public async void InitializationServices(IServiceCollection serviceCollection, IConfiguration configuration, CancellationToken cancellationToken = default)
+		public async Task InitializationServices(IServiceCollection serviceCollection, IConfiguration configuration, CancellationToken cancellationToken = default)
 		{
 			for(var i = 0; i < _services.Count; i++)
 			{

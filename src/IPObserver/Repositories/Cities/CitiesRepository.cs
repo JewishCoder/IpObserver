@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class CitiesRepository : WriteableRepositoryBase<City, ICity, CityFilter, ICity>, ICitiesRepository
+	internal sealed class CitiesRepository : CrudRepositoryBasecs<City, ICity, CityFilter, ICity>, ICitiesRepository
 	{
 		private Dictionary<Type, Type> FilterEntityMap { get; }
 
@@ -50,9 +50,8 @@ namespace IPObserver.DataStorage
 
 		internal override City GetEntity(StorageContext context, ICity data)
 		{
-			var county = GetDbSet(context)
-				.Where(x => x.County.Name.Equals(data.County.Name))
-				.Select(x=>x.County)
+			var county = context.Set<County>()
+				.Where(x => x.Name.Equals(data.County.Name))
 				.FirstOrDefault();
 			var city = new City
 			{
@@ -71,9 +70,8 @@ namespace IPObserver.DataStorage
 
 		internal override async Task<City> GetEntityAsync(StorageContext context, ICity data, CancellationToken cancellationToken)
 		{
-			var county = await GetDbSet(context)
-				.Where(x => x.County.Name.Equals(data.County.Name))
-				.Select(x => x.County)
+			var county = await context.Set<County>()
+				.Where(x => x.Name.Equals(data.County.Name))
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(continueOnCapturedContext: false);
 			var city = new City

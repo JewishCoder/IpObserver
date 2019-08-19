@@ -17,7 +17,7 @@ namespace IPObserver.DataStorage
 	
 		}
 
-		public virtual int Count(TFilter filter)
+		public virtual int Count(TFilter filter = default)
 		{
 			using(var context = DatabaseService.CreateContext())
 			{
@@ -30,7 +30,7 @@ namespace IPObserver.DataStorage
 			}
 		}
 
-		public virtual async Task<int> CountAsync(TFilter filter, CancellationToken cancellationToken)
+		public virtual async Task<int> CountAsync(TFilter filter = default, CancellationToken cancellationToken = default)
 		{
 			using(var context = await DatabaseService
 				.CreateContextAsync()
@@ -59,7 +59,7 @@ namespace IPObserver.DataStorage
 			}
 		}
 
-		public virtual async Task<IReadOnlyList<TEntityImpl>> FetchAsync(TFilter filter, CancellationToken cancellation)
+		public virtual async Task<IReadOnlyList<TEntityImpl>> FetchAsync(TFilter filter = default, CancellationToken cancellation = default)
 		{
 			using(var context = await DatabaseService
 				.CreateContextAsync()

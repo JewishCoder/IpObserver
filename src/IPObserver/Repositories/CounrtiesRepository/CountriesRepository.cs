@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class CountriesRepository : WriteableRepositoryBase<County, ICounty, CountyFilter, ICounty>, ICountriesRepository
+	internal sealed class CountriesRepository : CrudRepositoryBasecs<County, ICounty, CountyFilter, ICounty>, ICountriesRepository
 	{
 		private Dictionary<Type, Type> FilterEntityMap { get; }
 
@@ -53,9 +53,8 @@ namespace IPObserver.DataStorage
 
 		internal override County GetEntity(StorageContext context, ICounty data)
 		{
-			var continent = GetDbSet(context)
-				.Where(x => x.Continent.Name.Equals(data.Continent.Name))
-				.Select(x => x.Continent)
+			var continent = context.Set<Continent>()
+				.Where(x => x.Name.Equals(data.Continent.Name))
 				.FirstOrDefault();
 			var country = new County
 			{
@@ -75,9 +74,8 @@ namespace IPObserver.DataStorage
 
 		internal override async Task<County> GetEntityAsync(StorageContext context, ICounty data, CancellationToken cancellationToken)
 		{
-			var continent = await GetDbSet(context)
-				.Where(x => x.Continent.Name.Equals(data.Continent.Name))
-				.Select(x => x.Continent)
+			var continent = await context.Set<Continent>()
+				.Where(x => x.Name.Equals(data.Continent.Name))
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(continueOnCapturedContext: false);
 			var country = new County

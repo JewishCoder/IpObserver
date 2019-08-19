@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IPObserver.DataStorage
 {
-	internal sealed class LocationsRepository : WriteableRepositoryBase<Location, ILocation, LocationFilter, ILocation>, ILocationsRepository
+	internal sealed class LocationsRepository : CrudRepositoryBasecs<Location, ILocation, LocationFilter, ILocation>, ILocationsRepository
 	{
 		public LocationsRepository(IDatabaseService databaseService) : base(databaseService)
 		{

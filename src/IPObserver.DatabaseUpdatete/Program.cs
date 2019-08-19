@@ -9,8 +9,8 @@ namespace IPObserver.DatabaseUpdatete
 	{
 		static void Main(string[] args)
 		{
-			
 
+		
 		}
 	}
 }

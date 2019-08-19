@@ -34,7 +34,8 @@ namespace IPObserver.DataStorage
 			switch(DatabaseProvider.DatabaseType)
 			{
 				case DatabaseType.PostgreSql:
-					optionsBuilder.UseNpgsql(DatabaseProvider.ConnectionProvider.GetConnection());
+					var connetionString = DatabaseProvider.ConnectionProvider.GetConnectionString();
+					optionsBuilder.UseNpgsql(connetionString);
 					break;
 			}
 		}

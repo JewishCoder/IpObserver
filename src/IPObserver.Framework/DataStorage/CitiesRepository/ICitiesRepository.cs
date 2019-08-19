@@ -4,7 +4,10 @@ using System.Text;
 
 namespace IPObserver.DataStorage
 {
-	public interface ICitiesRepository : IWriteableRepository<ICity, CityFilter, ICity>, IRemovableRepository<CityFilter>
+	public interface ICitiesRepository :
+		IReadOnlyRepository<ICity, CityFilter>,
+		IWriteableRepository<ICity, CityFilter, ICity>, 
+		IRemovableRepository<CityFilter>
 	{
 	}
 }
