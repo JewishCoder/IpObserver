@@ -34,7 +34,7 @@ namespace IPObserver.Api.Services
 			serviceCollection.AddSingleton(RepositoriesFactory.Create<IIpV6ClientsRepository>(databaseService));
 			serviceCollection.AddSingleton(RepositoriesFactory.Create<ILocationsRepository>(databaseService));
 
-			//await databaseProvider.CreateDatabaseAsync(cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+			await databaseProvider.CreateDatabaseAsync(cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
 		}
 	}
 }

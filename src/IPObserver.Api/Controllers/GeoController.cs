@@ -111,7 +111,7 @@ namespace IPObserver.Api.Controllers
 					.AddAsync(new CountyData(response.Country.Name, response.Country.IsoCode, continent))
 					.ConfigureAwait(continueOnCapturedContext: false);
 			}
-			if(city == null)
+			if(city == null && !string.IsNullOrWhiteSpace(response.City.Name))
 			{
 				city = await _citiesRepository
 					.AddAsync(new CityData(response.City.Name, country))

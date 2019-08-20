@@ -47,19 +47,19 @@ namespace IPObserver.DataStorage
 
 		public long Id { get; set; }
 
-		internal long CityId { get; set; }
+		internal long? CityId { get; set; }
 
 		public City City { get; set; }
 
-		internal long CountyId { get; set; }
+		internal long? CountyId { get; set; }
 
 		public County County { get; set; }
 
-		internal long ContinentId { get; set; }
+		internal long? ContinentId { get; set; }
 
 		public Continent Continent { get; set; }
 
-		internal long LocationId { get; set; }
+		internal long? LocationId { get; set; }
 
 		public Location Location { get; set; }
 

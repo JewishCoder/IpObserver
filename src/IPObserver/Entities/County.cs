@@ -66,25 +66,7 @@ namespace IPObserver.DataStorage
 				context = new RepresentationContext();
 			}
 
-			var cities = new List<ICity>();
-			if(Cities.Count > 0)
-			{
-				for(var i = 0; i < Cities.Count; i++)
-				{
-					var city = Cities[i];
-					var county = default(ICounty);
-					if(city.County != null)
-					{
-						 county = new CountyImpl(city.County.Name, city.County.Code, city.County.Continent?.Represent(context), null);	
-					}
-					cities.Add(new CityImpl(city.Name, county));
-				}
-			}
-
-			var continent = default(IContinent);
-			
-			var result = context.GetOrAdd(Id, () => new CountyImpl(Name, Code, continent, cities));
-			return result;
+			return RepresentFactory.CreateCountry(this, context);
 		}
 	}
 }

@@ -57,7 +57,7 @@ namespace IPObserver.DataStorage
 
 		public ILocation Represent(IRepresentationContext context = null)
 		{
-			return context.GetOrAdd(Id, () => new LocationImpl(AccuracyRadius, Latitude, Longitude, TimeZone));
+			return RepresentFactory.CreateLocation(this, context);
 		}
 	}
 }

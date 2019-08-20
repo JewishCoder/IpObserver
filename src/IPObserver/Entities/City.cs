@@ -56,7 +56,7 @@ namespace IPObserver.DataStorage
 				context = new RepresentationContext();
 			}
 
-			return context.GetOrAdd(Id, () => new CityImpl(Name, County?.Represent(context)));
+			return RepresentFactory.CreateCity(this, context);
 		}
 	}
 }

@@ -59,16 +59,7 @@ namespace IPObserver.DataStorage
 				context = new RepresentationContext();
 			}
 
-			var counties = new List<ICounty>();
-			if(Counties.Count > 0)
-			{
-				for(var i = 0; i < Counties.Count; i++)
-				{
-					counties.Add(Counties[i].Represent(context));
-				}
-			}
-
-			return context.GetOrAdd(Id, () => new ContinentImpl(Name, Code, counties));
+			return RepresentFactory.CreateContinent(this, context);
 		}
 	}
 }

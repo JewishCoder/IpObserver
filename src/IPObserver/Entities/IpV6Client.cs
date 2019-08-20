@@ -31,13 +31,7 @@ namespace IPObserver.DataStorage
 				context = new RepresentationContext();
 			}
 
-			return context.GetOrAdd(Id,
-				() => new IpV6ClientImpl(
-					IpV6,
-					City?.Represent(context),
-					County?.Represent(context),
-					Continent?.Represent(context),
-					Location?.Represent(context)));
+			return RepresentFactory.CreateIpClient(this, context);
 		}
 	}
 }

@@ -8,6 +8,7 @@ namespace IPObserver.DataStorage
 	{
 		internal static Continent CreateContinent(IContinent data)
 		{
+			if(data == null) return null;
 			var result = new Continent
 			{
 				Code = data.Code,
@@ -29,6 +30,7 @@ namespace IPObserver.DataStorage
 
 		internal static County CreateCounty(ICounty data)
 		{
+			if(data == null) return null;
 			var result = new County
 			{
 				Code = data.Code,
@@ -51,6 +53,7 @@ namespace IPObserver.DataStorage
 
 		internal static City CreateCity(ICity data)
 		{
+			if(data == null) return null;
 			return new City
 			{
 				Name = data.Name,
@@ -60,6 +63,7 @@ namespace IPObserver.DataStorage
 
 		internal static IpV4Client CreateIpV4Client(IIpV4Client data)
 		{
+			if(data == null) return null;
 			var result = new IpV4Client
 			{
 				IpV4 = data.IpV4,
@@ -82,6 +86,7 @@ namespace IPObserver.DataStorage
 
 		internal static IpV6Client CreateIpV4Client(IIpV6Client data)
 		{
+			if(data == null) return null;
 			var result = new IpV6Client
 			{
 				IpV6 = data.IpV6,
@@ -104,6 +109,7 @@ namespace IPObserver.DataStorage
 
 		internal static Location CreateLocation(ILocation data)
 		{
+			if(data == null) return null;
 			return new Location
 			{
 				AccuracyRadius = data.AccuracyRadius,
