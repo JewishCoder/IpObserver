@@ -42,15 +42,16 @@ namespace IPObserver.Api.Controllers
 			_databaseReader = new DatabaseReader(configuration.GetValue<string>("MaxMindDbPath"));
 		}
 
-		[HttpGet("{ipv4}")]
-		public async Task<JsonResult> GetCity(string ipv4)
+		[HttpGet]
+		[Route("[action]/{ip?}")]
+		public async Task<JsonResult> GetCity(string ip = null)
 		{
-			if(string.IsNullOrWhiteSpace(ipv4))
+			if(string.IsNullOrWhiteSpace(ip))
 			{
-				return null;
+				return new JsonResult(new ResponseModel(null, "IP address should not be NULL"));
 			}
 			
-			if(IPAddress.TryParse(ipv4, out var address))
+			if(IPAddress.TryParse(ip, out var address))
 			{
 				if(address.AddressFamily != AddressFamily.InterNetwork)
 				{
@@ -63,7 +64,7 @@ namespace IPObserver.Api.Controllers
 					if(response == null) return new JsonResult(new ResponseModel(null, "Data not found"));
 
 					var existIps = await _ipV4ClientsRepository
-							.FetchAsync(new IpV4ClientFilter(x => x.IpV4.Equals(ipv4)))
+							.FetchAsync(new IpV4ClientFilter(x => x.IpV4.Equals(ip)))
 							.ConfigureAwait(continueOnCapturedContext: false);
 					if(existIps.Count > 0)
 					{
